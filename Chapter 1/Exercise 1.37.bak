@@ -1,0 +1,9 @@
+#lang sicp
+
+(define (cont-frac n d k)
+      (let ((n-term (n k))
+            (d-term (d k)))
+        (if (= k 0)
+            (/ n-term d-term)
+        (/ n-term (+ d-term (cont-frac n d (- k 1)))))))
+  

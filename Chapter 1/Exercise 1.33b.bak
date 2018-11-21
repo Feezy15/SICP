@@ -1,0 +1,23 @@
+#lang sicp
+
+(define (filtered-accumulate combiner filter null-value term a next b)
+  (cond ((> a b)
+         null-value)
+        ((filter a b)
+         (combiner (term a) (filtered-accumulate combiner filter null-value term (next a) next b)))
+        (else
+         (combiner null-value (filtered-accumulate combiner filter null-value term (next a) next b))))) 
+
+(define (product a b) (* a b))
+(define (rel-prime? a b)
+  (define (gcd a b)
+    (if (= b 0)
+        a
+        (gcd b (remainder a b))))
+  (= (gcd a b) 1))
+
+(define (product-rel-primes n) ;product of all positive integers < n that are relatively prime to n
+  (filtered-accumulate product rel-prime? 1 identity 1 inc n))
+
+(product-rel-primes 8) ;105 1*3*5*7
+(product-rel-primes 11) ;3628800

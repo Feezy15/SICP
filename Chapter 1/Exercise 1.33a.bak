@@ -1,0 +1,21 @@
+#lang sicp
+
+(define (filtered-accumulate combiner filter null-value term a next b)
+  (cond ((> a b)
+         null-value)
+        ((filter a)
+         (combiner (term a) (filtered-accumulate combiner filter null-value term (next a) next b)))
+        (else
+         (combiner (null-value) (filtered-accumulate combiner filter null-value term (next a) next b))))) 
+
+(define (product a b)
+  (* a b))
+(define (identity x) x)
+(define (inc x) (+ x 1))
+(define (square x) (* x x))
+
+(define (factorial n)
+  (filtered-accumulate product 1 identity 1 inc n))
+
+(factorial 7) ;5040
+(pi-sum 1.0 1000000) ;3.14159265

@@ -1,0 +1,13 @@
+#lang sicp
+
+(define (cont-frac n d k)
+      (let ((n-term (n k))
+            (d-term (d k)))
+        (if (= k 0)
+            (/ n-term d-term)
+        (/ n-term (+ d-term (cont-frac n d (- k 1)))))))
+
+(cont-frac (lambda (i) 1.0) ;approximate 1/phi
+           (lambda (i) 1.0) ;0.61803398875
+           11) ;requires 11 steps for approximation within 4 dec. places
+  

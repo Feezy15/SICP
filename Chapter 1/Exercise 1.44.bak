@@ -1,0 +1,14 @@
+#lang sicp
+
+(define (smooth f dx)
+  (lambda (x) (/ (+ (f x)
+                    (f (- x dx))
+                    (f (+ x dx)))
+                 3)))
+
+(define (n-fold-smooth f dx n)
+  (repeated (smooth f dx) n))
+
+(sin (/ pi 2))
+((smooth sin 0.7) (/ pi 2))
+((n-fold-smooth sin 0.7 2) (/ pi 2))

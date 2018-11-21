@@ -1,0 +1,34 @@
+#lang sicp
+
+(define (even? n) (= (remainder n 2) 0))
+
+(define (prime? n)
+  (define (fast-prime? times counter)
+     (cond ((= times 0) true)
+           ((= counter (- (/ times 2) 1)) false)
+           ((miller-rabin-test n counter) (fast-prime? n (- times 1)))
+           (else false))))
+
+(define (miller-rabin-test n counter)
+  (define (test) (expmod (+ 1 (random (- n 1))) (- n 1) n))
+    (cond ((= test n) #t)
+          ((= test 0) (+ counter 1) #t)
+          (else false)))
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m) m)
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))        
+
+(define (square x n)
+  (define (check-square)
+    (= (remainder (* x x) n) 1))
+  (if (check-square)
+      0
+      (* x x)))
+
+
